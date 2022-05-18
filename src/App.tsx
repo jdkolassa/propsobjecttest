@@ -1,26 +1,38 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { ReactNode, useState } from 'react';
+import Selector from './components/Selector';
+import { MockClass, MockOption, MockSubClass } from './models';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import data from './data.json';
+import ClassDisplayer from './components/ClassDisplayer';
+import SubClassDisplayer from './components/SubClassDisplayer';
+import OptionDisplayer from './components/OptionDisplayer';
+
+export interface ISelect {
+  activeComponent: JSX.Element,
+  mockclass: MockClass | null,
+  mocksubclass: MockSubClass | null,
+  mockoptions: MockOption[] | null,
 }
 
-export default App;
+const App = () => {
+
+  const [currentSelect, setCurrentSelect] = useState<ISelect>({
+    activeComponent: ClassDisplayer,
+    mockclass: null,
+    mocksubclass: null,
+    mockoptions: null
+  });
+
+  function updateCurrentSelect(updates: ISelect){
+    setCurrentSelect(updates)
+  }
+
+  return (
+    <div>
+      <h1>Testing Transfer of Props via Objects</h1>
+      <Selector data={data} setCurrentSelect={updateCurrentSelect} {...currentSelect}  />
+    </div>
+  )
+}
+
+export default App
